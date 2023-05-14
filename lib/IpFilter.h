@@ -35,8 +35,9 @@ protected:
      * Validate Ip address.
      *
      * @param ip_value Contain available Ip address octet (byte).
+     * @return true if number is contained.
      */
-    void exitIfNoIp(const std::string& ip_value);
+    bool exitIfNoIp(const std::string& ip_value);
 
     /**
      * Validate and pushed ip address octets to container.
