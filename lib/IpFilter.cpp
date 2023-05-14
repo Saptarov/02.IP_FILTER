@@ -39,24 +39,27 @@ bool IpFilter::isNumber(const std::string& availNumber) {
     return true;
 }
 
-void IpFilter::exitIfNoIp(const std::string& ip_value) {
+bool IpFilter::exitIfNoIp(const std::string& ip_value) {
     if (ip_value.empty() || !isNumber(ip_value)) {
         std::cerr << "Invalid ip address type: " << (ip_value.empty() ? "empty" : ip_value) << std::endl;
-        exit(1);
+        return false;
     }
+    return true;
 }
 
 void IpFilter::getNumber(std::string ipAddr, std::vector<int>& parsedIp) {
     auto pos = ipAddr.find(".");
     if (pos != std::string::npos) {
         std::string ip_value = ipAddr.substr(0, pos);
-        exitIfNoIp(ip_value);
-        parsedIp.push_back(atoi(ip_value.c_str()));
-        getNumber(ipAddr.substr(ip_value.size() + 1, ipAddr.size() - pos), parsedIp);
+        if (exitIfNoIp(ip_value)) {
+            parsedIp.push_back(atoi(ip_value.c_str()));
+            getNumber(ipAddr.substr(ip_value.size() + 1, ipAddr.size() - pos), parsedIp);
+        }
     }
     else if (ipAddr.size() > 0) {
-        exitIfNoIp(ipAddr);
-        parsedIp.push_back(atoi(ipAddr.c_str()));
+        if (exitIfNoIp(ipAddr)) {
+            parsedIp.push_back(atoi(ipAddr.c_str()));
+        }
     }
 }
 
