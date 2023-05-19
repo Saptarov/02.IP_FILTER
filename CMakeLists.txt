@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
-project(ip_filter VERSION ${PROJECT_VESRION} LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
+project(ip_filter VERSION ${PROJECT_VESRION} LANGUAGES CXX)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/version.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/version.h)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/googletest-release-1.12.1)
