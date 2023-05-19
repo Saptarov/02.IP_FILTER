@@ -6,7 +6,6 @@
 class IpFilter
 {
 public:
-    IpFilter();
     /**
      * Parsed arguments from stdin.
      *
@@ -21,6 +20,15 @@ public:
      * @return Reference to sorted container.
      */
     const std::vector<uint32_t>& getSortedIps();
+
+    /**
+     * Check ip address dots :).
+     *
+     * @param ipAddr String from stream.
+     * @param parsedIp Container of ip address octets.
+     * @return false if ipAddr is not contained 3 dots.
+     */
+    bool checkIpLen(std::string ipAddr, std::vector<int>& parsedIp);
 protected:
 
     /**
@@ -46,15 +54,6 @@ protected:
      * @param parsedIp Container of ip address octets.
      */
     void getNumber(std::string ipAddr, std::vector<int>& parsedIp);
-
-    /**
-     * Check ip address dots :).
-     *
-     * @param ipAddr String from stream.
-     * @param parsedIp Container of ip address octets.
-     * @return false if ipAddr is not contained 3 dots.
-     */
-    bool checkIpLen(std::string ipAddr, std::vector<int>& parsedIp);
 
     /**
      * Compared octets of two ip address.
