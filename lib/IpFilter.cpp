@@ -1,30 +1,5 @@
 #include "IpFilter.h"
 
-IpFilter::IpFilter()
-{
-
-}
-
-void IpFilter::parseArguments(int argc, char** argv) {
-    for (int i = START_INDEX; i < argc; ++i) {
-        std::string ip = argv[i];
-
-        std::vector<int> parsedIp;
-        if (!checkIpLen(ip, parsedIp)) {
-            std::cerr << "Error parsing: " << ip <<" is not have ip address\n" << std::endl;
-        }
-
-        if (parsedIp.size()) {
-            std::for_each(parsedIp.begin(), parsedIp.end(), [](int octet){std::cout << octet << " ";});
-            std::cout << std::endl;
-        }
-
-        uint8_t ipbytes[4] = {(uint8_t)parsedIp[0],(uint8_t)parsedIp[1],(uint8_t)parsedIp[2],(uint8_t)parsedIp[3]};
-        uint32_t ipBin = ipbytes[0] | ipbytes[1] << 8 | ipbytes[2] << 16 | ipbytes[3] << 24;
-        sortIp(orderedIps, ipBin);
-    }
-}
-
 const std::vector<uint32_t>& IpFilter::getSortedIps() {
     assert(orderedIps.size() > 0);
     return orderedIps;
@@ -64,10 +39,14 @@ void IpFilter::getNumber(std::string ipAddr, std::vector<int>& parsedIp) {
 }
 
 bool IpFilter::checkIpLen(std::string ipAddr, std::vector<int>& parsedIp) {
-    if (std::count_if(ipAddr.begin(), ipAddr.end(), []( char c ){return c =='.';}) != 3) {
+    if (std::count_if(ipAddr.begin(), ipAddr.end(), []( char c ){return c =='.';}) != 3 || ipAddr[ipAddr.size() - 1] == '.') {
         return false;
     }
     getNumber(ipAddr, parsedIp);
+
+    uint8_t ipbytes[4] = {(uint8_t)parsedIp[0],(uint8_t)parsedIp[1],(uint8_t)parsedIp[2],(uint8_t)parsedIp[3]};
+    uint32_t ipBin = ipbytes[0] | ipbytes[1] << 8 | ipbytes[2] << 16 | ipbytes[3] << 24;
+    sortIp(orderedIps, ipBin);
     return true;
 }
 
@@ -102,6 +81,11 @@ void IpFilter::sortIp(std::vector<uint32_t>& sorteDescIps, uint32_t ipBin) {
     bool bInserted = false;
     for(size_t i = 0; sorteDescIps.size(); i++) {
         if (compare(ipBin, sorteDescIps[i]) == 1) {
+            uint8_t* ipBins = (uint8_t*)&ipBin;
+
+            std::cout << "try push " << ipBins[0] << "." << ipBins[1] << "." << ipBins[2] << "." << ipBins[3] << std::endl;
+
+
             sorteDescIps.insert(sorteDescIps.begin() +i, ipBin);
             bInserted = true;
             break;
