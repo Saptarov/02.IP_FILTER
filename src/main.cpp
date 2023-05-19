@@ -1,24 +1,22 @@
 #include "../lib/IpFilter.h"
 
-void help() {
-    std::cout << "Please enter ipv4 address like this mask xxx.xxx.xxx.xxx or type \"q\" for sort\n" << std::endl;
+void usage() {
+    std::cout << "Example:\n"
+        "./ipaddr Ip1 Ip2 Ip3 ... IpN\n" << std::endl;
 }
 
-int main () {
-    help();
+bool checkArgLen(int len) {
+    return len > 1;
+}
 
-    IpFilter ipFilter;
-    std::string ip{};
-    std::vector<int> parsedIp;
-
-    while (std::getline(std::cin, ip)) {
-        if (ip == "q") {
-            break;
-        }
-        if (!ipFilter.checkIpLen(ip, parsedIp)) {
-            std::cerr << "Error parsing: " << ip <<" is not have ip address\n" << std::endl;
-        }
+int main (int argc, char* argv[]) {
+    if (!checkArgLen(argc)) {
+        std::cerr << "Invalid argument count\n" << std::endl;
+        usage();
+        return -1;
     }
+    IpFilter ipFilter;
+    ipFilter.parseArguments(argc, argv);
 
     std::cout << "\n1.show sorted Ips:" << std::endl;
     for(uint32_t bin : ipFilter.getSortedIps()) {
