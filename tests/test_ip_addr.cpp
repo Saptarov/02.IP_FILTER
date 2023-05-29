@@ -7,7 +7,7 @@ public:
 
     bool test_checkIpLen(const std::string& ip) {
         std::vector<int> testIps;
-        return checkIpLen(ip, testIps);
+        return checkIpLen(ip);
     }
 
     size_t test_getNumber(const std::string& ip) {

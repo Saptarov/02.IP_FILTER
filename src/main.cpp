@@ -9,13 +9,12 @@ int main () {
 
     IpFilter ipFilter;
     std::string ip{};
-    std::vector<int> parsedIp;
 
     while (std::getline(std::cin, ip)) {
         if (ip == "q") {
             break;
         }
-        if (!ipFilter.checkIpLen(ip, parsedIp)) {
+        if (!ipFilter.checkIpLen(ip)) {
             std::cerr << "Error parsing: " << ip <<" is not have ip address\n" << std::endl;
         }
     }

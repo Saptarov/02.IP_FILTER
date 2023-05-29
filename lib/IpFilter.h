@@ -25,10 +25,9 @@ public:
      * Check ip address dots :).
      *
      * @param ipAddr String from stream.
-     * @param parsedIp Container of ip address octets.
      * @return false if ipAddr is not contained 3 dots.
      */
-    bool checkIpLen(std::string ipAddr, std::vector<int>& parsedIp);
+    bool checkIpLen(std::string ipAddr);
 protected:
 
     /**
@@ -70,7 +69,7 @@ protected:
      * @param sorteDescIps Container of results.
      * @param ipBin Ip in binary format.
      */
-    void sortIp(std::vector<uint32_t>& sorteDescIps, uint32_t ipBin);
+    void sortIp(uint32_t ipBin);
 
 protected:
     std::vector<uint32_t> orderedIps;
